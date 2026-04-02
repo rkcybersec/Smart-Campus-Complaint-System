@@ -1,0 +1,22 @@
+% extends 'base.html' %} {% block content %}
+Incharge Dashboard
+{% if complaints %} {% for c in complaints %}
+{{ c[1] }}
+{{ c[2] }}
+
+Category: {{ c[3] }}
+
+Priority: {{ c[7] }}
+
+Status: {{ c[4] }}
+
+User: {{ c[5] }}
+
+Time: {{ c[6] }}
+
+Mark as Reviewed
+Forward to Admin
+{% endfor %} {% else %}
+No complaints found
+
+{% endif %} {% endblock %}
