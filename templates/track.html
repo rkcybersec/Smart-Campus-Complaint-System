@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Complaint Tracking</h2>
+
+<!-- 🔍 Search + Filter -->
+<form method="GET">
+    <input type="text" name="search" placeholder="Search complaints">
+
+    <select name="category">
+        <option value="">All Categories</option>
+        <option>WiFi</option>
+        <option>Hostel</option>
+        <option>Classroom</option>
+        <option>Labs</option>
+        <option>Librabry</option>
+        <option>Electrical Isuues</option>
+        <option>Accounts</option>
+        <option>Physical Education</option>
+        <option>Student Association</option>
+        <option>Student Cell</option>
+        <option>Women Cell</option>
+        <option>Examination Branch Issues</option>
+
+
+    </select>
+
+    <button type="submit">Apply</button>
+</form>
+
+<br>
+
+<!-- 📋 Complaints List -->
+{% for c in complaints %}
+<div class="card">
+
+    <h3>{{ c[1] }}</h3>
+    <p style="opacity:0.8">{{ c[2] }}</p>
+
+    <p><b>Category:</b> {{ c[3] }}</p>
+    {% if c[8] %}
+    <img src="{{ url_for('static', filename='uploads/' + c[8]) }}" width="200">
+{% endif %}
+
+    <!-- 🎯 STATUS -->
+    <p>
+        <b>Status:</b>
+        <span class="status 
+            {% if c[4]=='Pending' %}pending
+            {% elif c[4]=='Resolved' %}resolved
+            {% else %}progress{% endif %}">
+            {{ c[4] }}
+        </span>
+    </p>
+
+    <!-- 🔥 PRIORITY -->
+    <p>
+        <b>Priority:</b>
+        <span class="priority 
+            {% if c[7] == 'Low' %}low
+            {% elif c[7] == 'Medium' %}medium
+            {% else %}high{% endif %}">
+            {{ c[7] }}
+        </span>
+    </p>
+     <p><b>Status:</b> {{ c[4] }}</p>
+    <p><b>Submitted by:</b> {{ c[5] }}</p>
+    <p><b>Time:</b> {{ c[6] }}</p>
+
+</div>
+{% else %}
+<p>No complaints found.</p>
+{% endfor %}
+
+{% endblock %}
