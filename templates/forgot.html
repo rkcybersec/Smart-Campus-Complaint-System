@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="display:flex; justify-content:center; align-items:center; height:80vh;">
+
+    <div class="card" style="width:350px; text-align:center; padding:20px;">
+
+        <h2>Reset Password</h2>
+
+        {% if msg %}
+            <p style="color:green;">{{ msg }}</p>
+        {% endif %}
+
+        <!-- STEP 1 -->
+        {% if not username %}
+        <form method="POST">
+            <input type="text" name="username" placeholder="Enter Username" required
+                   style="width:90%; padding:10px; margin:10px 0;">
+            
+            <button type="submit"
+                    style="padding:10px 20px; background:#38bdf8; border:none; color:white; border-radius:5px;">
+                Next
+            </button>
+        </form>
+        {% endif %}
+
+        <!-- STEP 2 -->
+        {% if username %}
+        <form method="POST">
+            <input type="hidden" name="username" value="{{ username }}">
+
+            <input type="password" name="new_password" placeholder="Enter New Password" required>
+                   style="width:90%; padding:10px; margin:10px 0;">
+
+            <button type="submit"
+                    style="padding:10px 20px; background:#38bdf8; border:none; color:white; border-radius:5px;">
+                Reset Password
+            </button>
+        </form>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

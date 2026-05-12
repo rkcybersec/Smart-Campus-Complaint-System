@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2><i class="fa-solid fa-user-shield"></i> Admin Dashboard</h2>
+
+<!-- 🔥 ANALYTICS -->
+<div style="display:flex; gap:20px; flex-wrap:wrap; margin-top:20px;">
+    <div class="card fade-in">Total: {{ total }}</div>
+    <div class="card fade-in">Pending: {{ pending }}</div>
+    <div class="card fade-in">Resolved: {{ resolved }}</div>
+    <div class="card fade-in">High Priority: {{ high }}</div>
+</div>
+
+<h3 style="margin-top:30px;">Category Analysis</h3>
+
+<div style="display:flex; gap:20px; flex-wrap:wrap;">
+    <div class="card fade-in">WiFi: {{ wifi }}</div>
+    <div class="card fade-in">Hostel: {{ hostel }}</div>
+    <div class="card fade-in">Classroom: {{ classroom }}</div>
+    <div class="card fade-in">Electrical: {{ electrical }}</div>
+    <div class="card fade-in">Physical Education: {{ physical_education }}</div>
+    <div class="card fade-in">Student Cell: {{ student_cell }}</div>
+</div>
+
+<!-- 🔥 COMPLAINT LIST -->
+<h3 style="margin-top:40px;">Forwarded Complaints</h3>
+
+{% for c in complaints %}
+<div class="card fade-in">
+
+    <h3>{{ c[1] }}</h3>
+    <p>{{ c[2] }}</p>
+
+    <p><b>Category:</b> {{ c[3] }}</p>
+    <p><b>Priority:</b> {{ c[7] }}</p>
+
+    <!-- 🔥 IMAGE -->
+    {% if c[8] %}
+        <img src="{{ url_for('static', filename='uploads/' + c[8]) }}" width="200">
+    {% endif %}
+
+    <!-- 🔥 STATUS -->
+    <p><b>Status:</b> 
+        <span class="status 
+            {% if c[4]=='Pending' %}pending
+            {% elif c[4]=='Forwarded' %}forwarded
+            {% elif c[4]=='In Progress' %}progress
+            {% elif c[4]=='Resolved' %}resolved
+            {% endif %}">
+
+            {% if c[4]=='Pending' %}🟠 Pending
+            {% elif c[4]=='Forwarded' %}🟣 Forwarded
+            {% elif c[4]=='In Progress' %}🔵 In Progress
+            {% elif c[4]=='Resolved' %}🟢 Resolved
+            {% endif %}
+
+        </span>
+    </p>
+
+    <p><b>Updated By:</b> {{ c['updated_by'] }}</p>
+    <p><b>User:</b> {{ c[5] }}</p>
+    <p><b>Time:</b> {{ c[6] }}</p>
+
+    <!-- 🔥 NEW: ASSIGNED BY -->
+    {% if c['assigned_by'] %}
+        <p><b>Assigned By:</b> {{ c['assigned_by'] }}</p>
+    {% endif %}
+
+    <!-- 🔥 ASSIGN WORKER -->
+    <form action="/assign/{{ c[0] }}" method="POST" style="margin-top:10px;">
+        
+        <select name="person">
+            <option>Select Worker</option>
+            <option>Electrician</option>
+            <option>Plumber</option>
+            <option>Cleaner</option>
+            <option>Librarian</option>
+            <option>Examination Incharge</option>
+        </select>
+
+        <button type="submit">Assign</button>
+
+    </form>
+
+    <!-- 🔥 SHOW ASSIGNED -->
+    {% if c['assigned_to'] %}
+        <p><b>Assigned To:</b> {{ c['assigned_to'] }}</p>
+    {% endif %}
+
+    {% if c['phone'] %}
+        <p><b>Phone:</b> {{ c['phone'] }}</p>
+
+        <!-- 📞 CALL BUTTON -->
+        <a href="tel:{{ c['phone'] }}">
+            <button>📞 Call Worker</button>
+        </a>
+    {% endif %}
+
+    <!-- 🔥 STATUS UPDATE -->
+    <form method="POST" style="margin-top:10px;">
+        <input type="hidden" name="id" value="{{ c[0] }}">
+
+        <select name="status">
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+        </select>
+
+        <button type="submit">Update</button>
+    </form>
+
+</div>
+{% endfor %}
+
+{% endblock %}

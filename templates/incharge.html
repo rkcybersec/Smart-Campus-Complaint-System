@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Incharge Dashboard</h2>
+
+{% if complaints %}
+    {% for c in complaints %}
+        <div class="card">
+
+            <h3>{{ c['title'] }}</h3>
+            <p>{{ c['description'] }}</p>
+
+            <p><b>Category:</b> {{ c['category'] }}</p>
+            <p><b>Priority:</b> {{ c['priority'] }}</p>
+
+            <!-- 🔥 STATUS -->
+            <p>
+                <b>Status:</b> 
+                <span class="status 
+                    {% if c['status']=='Pending' %}pending
+                    {% elif c['status']=='Reviewed' %}progress
+                    {% elif c['status']=='Forwarded' %}forwarded
+                    {% elif c['status']=='Resolved' %}resolved
+                    {% endif %}">
+                    
+                    {% if c['status']=='Pending' %}🟠 Pending
+                    {% elif c['status']=='Reviewed' %}🔵 Reviewed
+                    {% elif c['status']=='Forwarded' %}🟣 Forwarded
+                    {% elif c['status']=='Resolved' %}🟢 Resolved
+                    {% endif %}
+
+                </span>
+            </p>
+
+            <p><b>User:</b> {{ c['username'] }}</p>
+            <p><b>Time:</b> {{ c['created_at'] }}</p>
+
+            <!-- 🔥 REVIEW BUTTON -->
+            {% if c['status'] == 'Pending' %}
+            <form action="/review/{{ c['id'] }}" method="POST" style="margin-top:10px;">
+                <button type="submit">Mark as Reviewed</button>
+            </form>
+            {% endif %}
+
+            <!-- 🔥 FORWARD BUTTON -->
+            {% if c['status'] == 'Reviewed' %}
+            <form action="/forward/{{ c['id'] }}" method="POST" style="margin-top:10px;">
+                <button type="submit">Forward to Admin</button>
+            </form>
+            {% endif %}
+
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No complaints found</p>
+{% endif %}
+
+{% endblock %}
