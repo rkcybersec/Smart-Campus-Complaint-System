@@ -46,7 +46,6 @@ This system enables students to submit complaints digitally while allowing **In-
 
 ## 📌 Project Workflow
 
-`text
 Student
    ↓
 Submit Complaint
@@ -62,7 +61,6 @@ Complaint Closed
 
 ## 📂 Project Structure
 
-```text
 SMART-CAMPUS-COMPLAINT-SYSTEM/
 │── static/
 │   └── uploads/
@@ -85,4 +83,14 @@ SMART-CAMPUS-COMPLAINT-SYSTEM/
 │── requirements.txt
 │── README.md
 │── .gitignore
-```
+
+## Project Screenshots
+
+### Login Page
+![Login Page](login-page.png)
+
+### Student Dashboard
+![Student Dashboard](student-dashboard.png)
+
+### Admin Dashboard
+![Admin Dashboard](admin-dashboard.png)
