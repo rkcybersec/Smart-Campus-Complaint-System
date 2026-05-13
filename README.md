@@ -85,6 +85,8 @@ SMART-CAMPUS-COMPLAINT-SYSTEM/
 │── .gitignore
 
 ## Project Screenshots
+### User Interface
+![User Interface](user-interface.png)
 
 ### Login Page
 ![Login Page](login-page.png)
